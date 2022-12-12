@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @stack('styles')
     <title>Devstagram - @yield('titulo')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -27,7 +28,7 @@
                     </svg>
                     Crear
                 </a>
-                <a class="font-bold text-gray-600 text-sm" href="#">Hola: <span
+                <a class="font-bold text-gray-600 text-sm" href="{{route('posts.index',auth()->user()->username)}}">Hola: <span
                         class="font-normal"> {{auth()->user()->username}} </span> </a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -38,7 +39,7 @@
         @endauth
         @guest
             <nav class="flex gap-2 items-center">
-                <a class="font-bold uppercase text-gray-600 text-sm" href="#">Login</a>
+                <a class="font-bold uppercase text-gray-600 text-sm" href="{{route('login') }}">Login</a>
                 <a class="font-bold uppercase text-gray-600 text-sm" href="{{route('register') }}">Crear cuenta</a>
             </nav>
         @endguest
