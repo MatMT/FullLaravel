@@ -1,16 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { categorias as categoriasDB } from "../data/categorias";
 
 const QuioscoContext = createContext();
 
 const QuioscoProvider = ({ children }) => {
-    // State - contendio a variar
+    // State - contenido a variar
     const [categorias, setCategorias] = useState(categoriasDB);
     const [categoriaActual, setCategoriaActual] = useState(categorias[0]);
     const [modal, setModal] = useState(false);
     const [producto, setProducto] = useState({});
     const [pedido, setPedido] = useState([]);
+    const [total, setTotal] = useState(0);
+
+    // Función para cada actualización de pedido
+    useEffect(() => {
+        const nuevoTotal = pedido.reduce(
+            (total, producto) => producto.precio * producto.cantidad + total,
+            0
+        );
+        setTotal(nuevoTotal);
+    }, [pedido]);
 
     // Convención - evento
     const handleClickCategoria = (id) => {
@@ -33,7 +43,7 @@ const QuioscoProvider = ({ children }) => {
     };
 
     // Sacar elementos de un objeto
-    const handleAgregarPedido = ({ categoria_id, imagen, ...producto }) => {
+    const handleAgregarPedido = ({ categoria_id, ...producto }) => {
         if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
             // Iterar por cada uno de los elementos
             const pedidoActualizado = pedido.map((pedidoState) =>
@@ -48,6 +58,22 @@ const QuioscoProvider = ({ children }) => {
         }
     };
 
+    const handleEditarCantidad = (id) => {
+        const productoActualizar = pedido.filter(
+            (producto) => producto.id === id
+        )[0];
+        setProducto(productoActualizar);
+        setModal(!modal);
+    };
+
+    const handleEliminarProductoPedido = (id) => {
+        const pedidoActualizado = pedido.filter(
+            (producto) => producto.id !== id
+        );
+        setPedido(pedidoActualizado);
+        toast.success("Eliminado del Pedido");
+    };
+
     return (
         <QuioscoContext.Provider
             value={{
@@ -60,6 +86,9 @@ const QuioscoProvider = ({ children }) => {
                 handleSetProducto,
                 pedido,
                 handleAgregarPedido,
+                handleEditarCantidad,
+                handleEliminarProductoPedido,
+                total,
             }}
         >
             {children}

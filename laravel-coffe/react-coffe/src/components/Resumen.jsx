@@ -1,8 +1,10 @@
+import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco";
 import ResumenProducto from "./ResumenProducto";
 
 export default function Resumen() {
-    const { pedido } = useQuiosco();
+    const { pedido, total } = useQuiosco();
+    const comprobarPedido = () => pedido.length === 0;
 
     return (
         <aside className="md:w-72 h-screen overflow-y-scroll p-5">
@@ -26,14 +28,24 @@ export default function Resumen() {
                 )}
             </div>
 
-            <p className="text-xl mt-10">Total: {""}</p>
+            <p className="text-xl mt-10">
+                Total: {""}
+                {formatearDinero(total)}
+            </p>
 
             <form className="w-full">
                 <div className="mt-5">
                     <input
                         type="submit"
-                        className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer"
+                        className={`${
+                            comprobarPedido()
+                                ? "bg-indigo-100"
+                                : "bg-indigo-600 hover:bg-indigo-800"
+                        }
+                        " px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer"
+                `}
                         value="Confirmar Pedido"
+                        disabled={comprobarPedido()}
                     ></input>
                 </div>
             </form>
