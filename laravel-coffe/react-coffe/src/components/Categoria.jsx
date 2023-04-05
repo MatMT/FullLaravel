@@ -1,17 +1,31 @@
+import useQuiosco from "../hooks/useQuiosco";
+
 export default function Categoria({ categoria }) {
+    // Extraer funciones y datos de context
+    const { handleClickCategoria, categoriaActual } = useQuiosco();
     const { icono, id, nombre } = categoria;
 
-    return (
-        <div className="flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer">
-            <img
-                alt="Imagen Icono"
-                src={`/img/icono_${icono}.svg`}
-                className="w-12"
-            />
+    // Función de categoria actual
+    const resaltarActual = () =>
+        categoriaActual.id === id ? "bg-amber-400" : "bg-white";
 
-            <p className="text-lg font-bold cursor-pointer truncate">
+    return (
+        <>
+            {/* Utilización de button para eventos */}
+            <button
+                type="button"
+                // Arrow function - Callback
+                onClick={() => handleClickCategoria(id)}
+                className={`${resaltarActual()}
+            flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer text-lg font-bold  truncate`}
+            >
+                <img
+                    alt="Imagen Icono"
+                    src={`/img/icono_${icono}.svg`}
+                    className="w-12"
+                />
                 {nombre}
-            </p>
-        </div>
+            </button>
+        </>
     );
 }
