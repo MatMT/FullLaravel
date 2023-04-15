@@ -1,35 +1,35 @@
-import {createBrowserRouter} from 'react-router-dom';
-import AuthLayout from './layouts/AuthLayout';
-import Layout from './layouts/Layout';
-import Inicio from './views/Inicio';
-import Login from './views/Login';
-import Registro from './views/Registro';
+import { createBrowserRouter } from "react-router-dom";
+import AuthLayout from "./layouts/AuthLayout";
+import Layout from "./layouts/Layout";
+import Inicio from "./views/Inicio";
+import Login from "./views/Login";
+import Registro from "./views/Registro";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <Layout />,
         children: [
             {
                 index: true,
-                element: <Inicio />
-            }
-        ]
+                element: <Inicio />,
+            },
+        ],
     },
     {
-        path: '/auth',
+        path: "/auth",
         element: <AuthLayout />,
         children: [
             {
-                path: '/auth/login',
-                element: <Login />
+                path: "/auth/login",
+                element: <Login />,
             },
             {
-                path: '/auth/registro',
-                element: <Registro />
-            }
-        ]
-    }
+                path: "/auth/registro",
+                element: <Registro />,
+            },
+        ],
+    },
 ]);
 
 export default router;
