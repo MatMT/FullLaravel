@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
@@ -28,3 +29,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Diferentes nombres | Convenciones que se deben seguir para automatizar
 Route::apiResource('/categorias', CategoriaController::class);
 Route::apiResource('/productos', ProductoController::class);
+
+// Autenticación
+Route::post('/registro', [AuthController::class, 'register']);

@@ -1,13 +1,22 @@
-// Se llaman todos para consumir menos una API
-import { productos as data } from "../data/productos";
+import useSWR from 'swr'
 // Componentes
 import Producto from "../components/Producto";
 import useQuiosco from "../hooks/useQuiosco";
+import clienteAxios from '../config/axios';
 
 export default function Inicio() {
     const { categoriaActual } = useQuiosco();
+
+    // Consulta SWR
+    const fetcher = () => clienteAxios('/api/productos').then(data => data.data)
+    const { data, error, isLoading } = useSWR('/api/productos', fetcher, {
+        refreshInterval: 1000
+    })
+
+    if (isLoading) return 'Cargando...';
+
     // Filtrando productos
-    const productos = data.filter(
+    const productos = data.data.filter(
         (producto) => producto.categoria_id === categoriaActual.id
     );
 
