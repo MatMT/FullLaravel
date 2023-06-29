@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
-
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Ejemplo para web.php ---
-Route::get('/categorias', [CategoriaController::class, 'index']);
+// Route::get('/categorias', [CategoriaController::class, 'index']);
 
 // Nueva manera api.php ---
 // Diferentes nombres | Convenciones que se deben seguir para automatizar
 Route::apiResource('/categorias', CategoriaController::class);
+Route::apiResource('/productos', ProductoController::class);
